@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using StudentReg.Models;
+
 
 namespace StudentReg
 {
@@ -31,6 +34,11 @@ namespace StudentReg
             });
 
 
+            services.AddDbContext<StudentContext>(options => 
+            options.UseSqlServer(Configuration.GetConnectionString("Student")));
+
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -46,6 +54,7 @@ namespace StudentReg
                 app.UseExceptionHandler("/Home/Error");
             }
 
+
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -53,7 +62,7 @@ namespace StudentReg
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Estudiantes}/{action=Index}/{id?}");
             });
         }
     }
